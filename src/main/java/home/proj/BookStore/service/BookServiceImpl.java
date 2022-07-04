@@ -6,6 +6,7 @@ import home.proj.BookStore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,24 +17,20 @@ public class BookServiceImpl implements BookService{
 
 
     @Override
-    public Optional<Book> findByBookId(Integer bookId) {
-        return bookRepository.findById(bookId);
+    public Optional<Book> findByBookId(Long bookId) {
+        return bookRepository.findById((long) Math.toIntExact(bookId));
 
     }
-
     @Override
-    public void deleteByBookId(Integer bookId) {
-        bookRepository.deleteById(bookId);
-
+    public void deleteByBookId(Long bookId) {
+        bookRepository.deleteById((long) Math.toIntExact(bookId));
     }
-
     @Override
     public void saveBook(Book book) {
         bookRepository.save(book);
     }
-
     public void updateBook(Book book) {
-        Optional<Book> bookFound = bookRepository.findById(book.getBookId());
+        Optional<Book> bookFound = bookRepository.findById((long) Math.toIntExact(book.getBookId()));
 
         if (bookFound.isPresent()) {
             Book bookUpdate = bookFound.get();
@@ -44,6 +41,10 @@ public class BookServiceImpl implements BookService{
 
             bookRepository.save(book);
         }
+    }
+    @Override
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
 }
 

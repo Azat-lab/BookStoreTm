@@ -1,6 +1,7 @@
 package home.proj.BookStore.controller;
 
 import home.proj.BookStore.entity.Book;
+
 import home.proj.BookStore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,8 +22,16 @@ public class BookController {
     private BookService bookService;
 
 
+    @GetMapping("/books")
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> books = new ArrayList<Book>(bookService.findAll());
+        if (books.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
     @GetMapping(value = "/books/find/{bookId}")
-    public ResponseEntity<Book> getBookById(@PathVariable Integer bookId) {
+    public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
         Optional<Book> bookData = bookService.findByBookId(bookId);
         return bookData.map(book -> new ResponseEntity<>(book, HttpStatus.OK)).orElseGet(()
                 -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -37,7 +48,7 @@ public class BookController {
 
     }
     @DeleteMapping(value = "books/delete/{bookId}")
-            public ResponseEntity<HttpStatus> deleteByBookId(@PathVariable("bookId") Integer bookId){
+            public ResponseEntity<HttpStatus> deleteByBookId(@PathVariable("bookId") Long bookId){
         try{
             bookService.deleteByBookId(bookId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -54,7 +65,6 @@ public class BookController {
         }catch (Exception e){
             return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
     }
 }
 

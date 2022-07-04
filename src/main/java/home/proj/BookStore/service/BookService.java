@@ -1,16 +1,17 @@
 package home.proj.BookStore.service;
 
 import home.proj.BookStore.entity.Book;
-import org.springframework.stereotype.Service;
 
+
+import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
 
-    Optional<Book> findByBookId(Integer bookId);
-    void deleteByBookId(Integer bookId);
+    Optional<Book> findByBookId(Long bookId);
+    void deleteByBookId(Long bookId);
     void saveBook(Book book);
-
     void updateBook(Book book);
+    List<Book> findAll();
 
 }

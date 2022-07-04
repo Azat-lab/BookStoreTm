@@ -15,8 +15,8 @@ public class PublisherServiceImpl implements PublisherService{
     private PublisherRepository publisherRepository;
 
     @Override
-    public Optional<Publisher> findByPublishId(Integer publishId) {
-        return publisherRepository.findById(publishId);
+    public Optional<Publisher> findByPublishId(Long publishId) {
+        return publisherRepository.findById((long) Math.toIntExact(publishId));
     }
 
     @Override
@@ -35,12 +35,12 @@ public class PublisherServiceImpl implements PublisherService{
     }
 
     @Override
-    public void deleteByPublishId(Integer publishId) {
-        publisherRepository.deleteById(publishId);
+    public void deleteByPublishId(Long publishId) {
+        publisherRepository.deleteById((long) Math.toIntExact(publishId));
 
     }
     @Override
-    public void save(Publisher publisher) {
+    public void savePublisher(Publisher publisher) {
         publisherRepository.save(publisher);
     }
 }

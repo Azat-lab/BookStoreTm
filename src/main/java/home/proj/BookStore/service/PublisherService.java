@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface PublisherService {
 
-    Optional<Publisher> findByPublishId(Integer publishId);
-    Iterable<Publisher> findAll();
+    Optional<Publisher> findByPublishId(Long publishId);
+    List<Publisher> findAll();
     List<Publisher> findByAddress(String address);
     List<Publisher> findByOrganizationName(String organizationName);
-    void deleteByPublishId(Integer publishId);
-    void save(Publisher publisher);
+    void deleteByPublishId(Long publishId);
+    void savePublisher(Publisher publisher);
 }

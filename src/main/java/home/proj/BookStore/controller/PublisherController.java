@@ -1,5 +1,7 @@
 package home.proj.BookStore.controller;
 
+
+
 import home.proj.BookStore.entity.Publisher;
 import home.proj.BookStore.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +21,18 @@ public class PublisherController {
     @Autowired
     private PublisherService publisherService;
 
-    @GetMapping(value ="/publisher")
-    public List<Publisher> findAll() {
-        return (List<Publisher>) publisherService.findAll();
+    @GetMapping("/publisher")
+    public ResponseEntity<List<Publisher>> getAllPublishers() {
+        List<Publisher> publisher = new ArrayList<Publisher>(publisherService.findAll());
+        if (publisher.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(publisher, HttpStatus.OK);
     }
 
+
     @GetMapping(value ="publisher/find/{publishId}")
-    public ResponseEntity<Publisher> getPublisherById(@PathVariable Integer publishId) {
+    public ResponseEntity<Publisher> getPublisherById(@PathVariable Long publishId) {
         Optional<Publisher> publisherData = publisherService.findByPublishId(publishId);
         return publisherData.map(publisher -> new ResponseEntity<>(publisher, HttpStatus.OK)).orElseGet(()
                 -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -33,7 +41,7 @@ public class PublisherController {
     @PostMapping(value ="/publisher/save")
     public ResponseEntity<Publisher> createPublisher(@RequestBody @Validated Publisher publisher){
         try {
-            publisherService.save(publisher);
+            publisherService.savePublisher(publisher);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -64,7 +72,7 @@ public class PublisherController {
         }
     }
     @DeleteMapping(value = "publisher/delete/{publishId}")
-    public ResponseEntity<HttpStatus> deleteById(@PathVariable("publishId") Integer publishId){
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable("publishId") Long publishId){
         try{
             publisherService.deleteByPublishId(publishId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -72,4 +80,5 @@ public class PublisherController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }

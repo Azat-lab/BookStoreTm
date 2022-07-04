@@ -7,10 +7,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
+
 @Repository
-public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
+public interface PublisherRepository extends JpaRepository<Publisher, Long> {
 
     List<Publisher> findByAddress(String address);
 
     List<Publisher> findByOrganizationName(String organizationName);
+
+
+
+
+
 }
