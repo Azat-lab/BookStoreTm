@@ -1,6 +1,6 @@
-package home.proj.BookStore.repository;
+package home.proj.bookstore.repository;
 
-import home.proj.BookStore.entity.Publisher;
+import home.proj.bookstore.entity.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package home.proj.BookStore.service;
+package home.proj.bookstore.service;
 
-import home.proj.BookStore.entity.Author;
+import home.proj.bookstore.entity.Author;
 import org.springframework.stereotype.Service;
 
 
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public interface AuthorService {
-    List<Author> findAll();
+    List<Author> findAllAuthors();
     Optional<Author> findByAuthorId(Long authorId);
     void deleteByAuthorId(Long authorId);
     void saveAuthor(Author author);

@@ -1,6 +1,6 @@
-package home.proj.BookStore.service;
+package home.proj.bookstore.service;
 
-import home.proj.BookStore.entity.Book;
+import home.proj.bookstore.entity.Book;
 
 
 import java.util.List;

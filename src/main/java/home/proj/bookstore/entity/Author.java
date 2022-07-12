@@ -1,13 +1,12 @@
-package home.proj.BookStore.entity;
+package home.proj.bookstore.entity;
 
 
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
 
+import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Getter
@@ -15,25 +14,26 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "publisher")
-public class Publisher {
+@Table(name = "author")
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "publisher_id")
-    private Long publishId;
-    @Column(name = "org_name")
-    private String organizationName;
-    @Column(name = "address")
-    private String address;
+    @Column(name = "author_id")
+    private Long authorId;
+    @Column(name = "full_name")
+    private String fullName;
+    @Column(name = "rating")
+    private Double rating;
+
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Publisher publisher = (Publisher) o;
-        return publishId != null && Objects.equals(publishId, publisher.publishId);
+        Author author = (Author) o;
+        return authorId != null && Objects.equals(authorId, author.authorId);
     }
 
     @Override

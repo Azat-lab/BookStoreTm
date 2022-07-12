@@ -1,8 +1,8 @@
-package home.proj.BookStore.service;
+package home.proj.bookstore.service;
 
 
-import home.proj.BookStore.entity.Book;
-import home.proj.BookStore.repository.BookRepository;
+import home.proj.bookstore.entity.Book;
+import home.proj.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +12,29 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService{
 
+
+    private final BookRepository bookRepository;
     @Autowired
-    private BookRepository bookRepository;
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
 
     @Override
     public Optional<Book> findByBookId(Long bookId) {
-        return bookRepository.findById((long) Math.toIntExact(bookId));
+        return bookRepository.findById(bookId);
 
     }
     @Override
     public void deleteByBookId(Long bookId) {
-        bookRepository.deleteById((long) Math.toIntExact(bookId));
+        bookRepository.deleteById(bookId);
     }
     @Override
     public void saveBook(Book book) {
         bookRepository.save(book);
     }
     public void updateBook(Book book) {
-        Optional<Book> bookFound = bookRepository.findById((long) Math.toIntExact(book.getBookId()));
-
+        Optional<Book> bookFound = bookRepository.findById(book.getBookId());
         if (bookFound.isPresent()) {
             Book bookUpdate = bookFound.get();
             bookUpdate.setTitle(book.getTitle());

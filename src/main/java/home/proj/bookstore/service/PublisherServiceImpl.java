@@ -1,7 +1,7 @@
-package home.proj.BookStore.service;
+package home.proj.bookstore.service;
 
-import home.proj.BookStore.entity.Publisher;
-import home.proj.BookStore.repository.PublisherRepository;
+import home.proj.bookstore.entity.Publisher;
+import home.proj.bookstore.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ public class PublisherServiceImpl implements PublisherService{
 
     @Override
     public Optional<Publisher> findByPublishId(Long publishId) {
-        return publisherRepository.findById((long) Math.toIntExact(publishId));
+        return publisherRepository.findById(publishId);
     }
 
     @Override
-    public List<Publisher> findAll() {
+    public List<Publisher> findAllPublishers() {
         return publisherRepository.findAll();
     }
 
@@ -36,7 +36,7 @@ public class PublisherServiceImpl implements PublisherService{
 
     @Override
     public void deleteByPublishId(Long publishId) {
-        publisherRepository.deleteById((long) Math.toIntExact(publishId));
+        publisherRepository.deleteById(publishId);
 
     }
     @Override

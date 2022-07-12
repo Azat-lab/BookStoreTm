@@ -1,4 +1,4 @@
-package home.proj.BookStore.entity;
+package home.proj.bookstore.entity;
 
 
 import lombok.*;

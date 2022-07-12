@@ -1,7 +1,7 @@
-package home.proj.BookStore.service;
+package home.proj.bookstore.service;
 
-import home.proj.BookStore.entity.Author;
-import home.proj.BookStore.repository.AuthorRepository;
+import home.proj.bookstore.entity.Author;
+import home.proj.bookstore.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +13,27 @@ import java.util.Optional;
 @Service
 public class AuthorServiceImpl implements AuthorService{
 
+
+    private final AuthorRepository authorRepository;
     @Autowired
-    private AuthorRepository authorRepository;
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
 
     @Override
-    public List<Author> findAll() {
+    public List<Author> findAllAuthors() {
         return authorRepository.findAll();
     }
 
     @Override
     public Optional<Author> findByAuthorId(Long authorId) {
-        return authorRepository.findById((long) Math.toIntExact(authorId));
+        return authorRepository.findById(authorId);
     }
 
     @Override
     public void deleteByAuthorId(Long authorId) {
-        authorRepository.deleteById((long) Math.toIntExact(authorId));
+        authorRepository.deleteById(authorId);
     }
     @Override
     public void saveAuthor(Author author) {

@@ -1,7 +1,7 @@
-package home.proj.BookStore.controller;
+package home.proj.bookstore.controller;
 
-import home.proj.BookStore.entity.Author;
-import home.proj.BookStore.service.AuthorService;
+import home.proj.bookstore.entity.Author;
+import home.proj.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,44 +13,46 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/author")
+@RequestMapping(value = "/api/author")
 public class AuthorController {
 
-    @Autowired
-    private AuthorService authorService;
 
-    @GetMapping("/author")
-    public ResponseEntity<List<Author>> getAllAuthors() {
-        List<Author> author = new ArrayList<Author>(authorService.findAll());
+    private final AuthorService authorService;
+    @Autowired
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Author>> findAllAuthors() {
+        List<Author> author = new ArrayList<>(authorService.findAllAuthors());
         if (author.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
-    @GetMapping("/author/{authorId}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable("authorId") Long authorId) {
+    @GetMapping("/{authorId}")
+    public ResponseEntity<Author> findByAuthorId(@PathVariable("authorId") Long authorId) {
         Optional<Author> authorData = authorService.findByAuthorId(authorId);
         return authorData.map(author -> new ResponseEntity<>(author, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value ="/author/save")
+    @PostMapping
     public ResponseEntity<Author> saveAuthor(@RequestBody @Validated Author author){
-        try {
             authorService.saveAuthor(author);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
     }
-    @DeleteMapping(value = "author/delete/{authorId}")
-    public ResponseEntity<HttpStatus> deleteAuthorById(@PathVariable("authorId") Long authorId){
-        try{
+    @DeleteMapping( "/{authorId}")
+    public ResponseEntity<HttpStatus> deleteByAuthorId(@PathVariable("authorId") Long authorId){
+        try {
             authorService.deleteByAuthorId(authorId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
 }
+
