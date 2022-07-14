@@ -1,8 +1,9 @@
-package home.proj.bookstore.service;
+package home.proj.bookstore.service.impl;
 
 
 import home.proj.bookstore.entity.Book;
 import home.proj.bookstore.repository.BookRepository;
+import home.proj.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
 
     private final BookRepository bookRepository;
@@ -30,7 +31,10 @@ public class BookServiceImpl implements BookService{
         bookRepository.deleteById(bookId);
     }
     @Override
-    public void saveBook(Book book) {
+    public void saveBook(Book book) throws BooksAlreadyExistsException {
+        if(bookRepository.existsById(book.getBookId())){
+            throw new BooksAlreadyExistsException();
+        }
         bookRepository.save(book);
     }
     public void updateBook(Book book) {
@@ -46,8 +50,11 @@ public class BookServiceImpl implements BookService{
         }
     }
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<Book> findAllBooks() {
+        return  bookRepository.findAll();
+    }
+
+    public static class BooksAlreadyExistsException extends Exception {
     }
 }
 

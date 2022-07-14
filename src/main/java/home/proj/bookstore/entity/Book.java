@@ -23,7 +23,6 @@ public class Book {
 
     @Column(name = "title")
     private String title;
-
     @Column(name = "isbn")
     private String bookSerialNumber;
     @Column(name = "amount")
@@ -37,20 +36,16 @@ public class Book {
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "publisher_id")
 )
+@ToString.Exclude
 private Set<Publisher> publishers;
-public Set<Publisher> getPublishers(){
-    return publishers;
-}
     @ManyToMany()
     @JoinTable(
             name = "books_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
+    @ToString.Exclude
     private Set<Author> authors;
-    public Set<Author> getAuthors(){
-        return authors;
-    }
 
 
     @Override

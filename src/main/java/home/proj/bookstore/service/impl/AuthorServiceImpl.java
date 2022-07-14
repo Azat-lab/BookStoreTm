@@ -1,7 +1,8 @@
-package home.proj.bookstore.service;
+package home.proj.bookstore.service.impl;
 
 import home.proj.bookstore.entity.Author;
 import home.proj.bookstore.repository.AuthorRepository;
+import home.proj.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 
 @Service
-public class AuthorServiceImpl implements AuthorService{
+public class AuthorServiceImpl implements AuthorService {
 
 
     private final AuthorRepository authorRepository;
@@ -41,4 +42,5 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
 
-}
+    }
+

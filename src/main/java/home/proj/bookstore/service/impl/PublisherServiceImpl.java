@@ -1,7 +1,8 @@
-package home.proj.bookstore.service;
+package home.proj.bookstore.service.impl;
 
 import home.proj.bookstore.entity.Publisher;
 import home.proj.bookstore.repository.PublisherRepository;
+import home.proj.bookstore.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PublisherServiceImpl implements PublisherService{
+public class PublisherServiceImpl implements PublisherService {
 
+
+    private final PublisherRepository publisherRepository;
     @Autowired
-    private PublisherRepository publisherRepository;
+    public PublisherServiceImpl(PublisherRepository publisherRepository) {
+        this.publisherRepository = publisherRepository;
+    }
 
     @Override
     public Optional<Publisher> findByPublishId(Long publishId) {

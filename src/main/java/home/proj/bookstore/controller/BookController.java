@@ -3,10 +3,10 @@ package home.proj.bookstore.controller;
 import home.proj.bookstore.entity.Book;
 
 import home.proj.bookstore.service.BookService;
+import home.proj.bookstore.service.impl.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequestMapping(value = "/api/books")
 public class BookController {
 
-
     private final BookService bookService;
     @Autowired
     public BookController(BookService bookService) {
@@ -27,7 +26,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> books = new ArrayList<>(bookService.findAll());
+        List<Book> books = new ArrayList<>(bookService.findAllBooks());
         if (books.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -42,9 +41,9 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> saveBook(@RequestBody @Validated Book book){
+    public ResponseEntity<Book> saveBook(@RequestBody Book book) throws BookServiceImpl.BooksAlreadyExistsException {
             bookService.saveBook(book);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
     @DeleteMapping("/{bookId}")
@@ -57,7 +56,7 @@ public class BookController {
         }
     }
     @PutMapping
-    public ResponseEntity<Book> updateBook(@RequestBody @Validated Book book) {
+    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
             bookService.updateBook(book);
             return new ResponseEntity<>(book, HttpStatus.CREATED);
     }

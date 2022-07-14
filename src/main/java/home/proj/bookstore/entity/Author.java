@@ -26,8 +26,6 @@ public class Author {
     @Column(name = "rating")
     private Double rating;
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
