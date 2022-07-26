@@ -44,12 +44,12 @@ public class PublisherServiceImpl implements PublisherService {
 
     }
     @Override
-    public void savePublisher(Publisher publisher) {
+    public Publisher savePublisher(Publisher publisher) {
         final var publisherToSave = Publisher.builder()
                 .address(publisher.getAddress())
                 .organizationName(publisher.getOrganizationName())
                 .build();
 
-        this.publisherRepository.save(publisherToSave);
+        return this.publisherRepository.save(publisherToSave);
     }
 }

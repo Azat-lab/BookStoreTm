@@ -86,7 +86,6 @@ class BookServiceTest {
 
     @Test
     void shouldDeleteBook(){
-
         doNothing().when(repository).deleteById(anyLong());
 
         service.deleteByBookId(getRandomLong());
@@ -100,10 +99,3 @@ class BookServiceTest {
 
 }
 
-
-//
-//    Optional<Book> findByBookId(Long bookId);
-//    void deleteByBookId(Long bookId);
-//    void saveBook(Book book) throws BookServiceImpl.BooksAlreadyExistsException;
-//    void updateBook(Book book);
-//    List<Book> findAllBooks();

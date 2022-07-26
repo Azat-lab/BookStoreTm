@@ -12,5 +12,5 @@ public interface PublisherService {
     List<Publisher> findByAddress(String address);
     List<Publisher> findByOrganizationName(String organizationName);
     void deletePublisher(Long publishId);
-    void savePublisher(Publisher publisher);
+    Publisher savePublisher(Publisher publisher);
 }
