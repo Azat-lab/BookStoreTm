@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface AuthorService {
     List<Author> findAllAuthors();
-    Optional<Author> findByAuthorId(Long authorId);
+    Author findByAuthorId(Long authorId);
     void deleteByAuthorId(Long authorId);
-    void saveAuthor(Author author);
+    Author saveAuthor(Author author);
 
 
 }
+//    List<Author> findByName(String author);

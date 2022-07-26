@@ -6,12 +6,11 @@ import home.proj.bookstore.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
-
 
     private final PublisherRepository publisherRepository;
     @Autowired
@@ -20,32 +19,37 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public Optional<Publisher> findByPublishId(Long publishId) {
-        return publisherRepository.findById(publishId);
+    public Publisher findByPublishId(Long publishId) {
+        return this.publisherRepository.findById(publishId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public List<Publisher> findAllPublishers() {
-        return publisherRepository.findAll();
+        return this.publisherRepository.findAll();
     }
 
     @Override
     public List<Publisher> findByAddress(String address) {
-        return publisherRepository.findByAddress(address);
+        return this.publisherRepository.findByAddress(address);
     }
 
     @Override
     public List<Publisher> findByOrganizationName(String organizationName) {
-        return publisherRepository.findByOrganizationName(organizationName);
+        return this.publisherRepository.findByOrganizationName(organizationName);
     }
 
     @Override
-    public void deleteByPublishId(Long publishId) {
-        publisherRepository.deleteById(publishId);
+    public void deletePublisher(Long publishId) {
+        this.publisherRepository.deleteById(publishId);
 
     }
     @Override
     public void savePublisher(Publisher publisher) {
-        publisherRepository.save(publisher);
+        final var publisherToSave = Publisher.builder()
+                .address(publisher.getAddress())
+                .organizationName(publisher.getOrganizationName())
+                .build();
+
+        this.publisherRepository.save(publisherToSave);
     }
 }

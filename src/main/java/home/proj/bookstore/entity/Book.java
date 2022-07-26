@@ -2,33 +2,34 @@ package home.proj.bookstore.entity;
 
 
 import lombok.*;
-import org.hibernate.Hibernate;
-
 import javax.persistence.*;
-import java.util.Objects;
+
 import java.util.Set;
 
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
 @Entity
 @Table(name = "books")
 public class Book {
     @Id
-    @Column(name = "book_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "book_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "isbn")
+    @Column(name = "isbn", nullable = false)
     private String bookSerialNumber;
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private Integer amount;
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
+
 
 @ManyToMany()
 @JoinTable(
@@ -48,16 +49,4 @@ private Set<Publisher> publishers;
     private Set<Author> authors;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Book book = (Book) o;
-        return bookId != null && Objects.equals(bookId, book.bookId);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

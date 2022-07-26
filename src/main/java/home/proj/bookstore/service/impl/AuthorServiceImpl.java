@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
-
 
     private final AuthorRepository authorRepository;
     @Autowired
@@ -21,26 +20,31 @@ public class AuthorServiceImpl implements AuthorService {
         this.authorRepository = authorRepository;
     }
 
-
     @Override
     public List<Author> findAllAuthors() {
-        return authorRepository.findAll();
+        return this.authorRepository.findAll();
     }
 
     @Override
-    public Optional<Author> findByAuthorId(Long authorId) {
-        return authorRepository.findById(authorId);
+    public Author findByAuthorId(Long authorId) {
+        return this.authorRepository.findById(authorId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public void deleteByAuthorId(Long authorId) {
-        authorRepository.deleteById(authorId);
+        this.authorRepository.deleteById(authorId);
     }
     @Override
-    public void saveAuthor(Author author) {
-        authorRepository.save(author);
+    public Author saveAuthor(Author author) {
+        final var authorToSave = Author.builder()
+                .fullName(author.getFullName())
+                .rating(author.getRating())
+                .build();
+        return this.authorRepository.save(authorToSave);
     }
+}
 
-
-    }
-
+//    @Override
+//    public List<Author> findByName(String author) {
+//        return authorRepository.findBy(author);
+//    }

@@ -34,7 +34,7 @@ public class PublisherController {
 
     @GetMapping( "/{publishId}")
     public ResponseEntity<Publisher> findPublisherById(@PathVariable Long publishId) {
-        Optional<Publisher> publisherData = publisherService.findByPublishId(publishId);
+        Optional<Publisher> publisherData = Optional.ofNullable(publisherService.findByPublishId(publishId));
         return publisherData.map(publisher -> new ResponseEntity<>(publisher, HttpStatus.OK)).orElseGet(()
                 -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -64,7 +64,7 @@ public class PublisherController {
     @DeleteMapping("/{publishId}")
     public ResponseEntity<HttpStatus> deleteById(@PathVariable("publishId") Long publishId){
         try {
-            publisherService.deleteByPublishId(publishId);
+            publisherService.deletePublisher(publishId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

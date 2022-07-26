@@ -33,7 +33,7 @@ public class AuthorController {
     }
     @GetMapping("/{authorId}")
     public ResponseEntity<Author> findByAuthorId(@PathVariable("authorId") Long authorId) {
-        Optional<Author> authorData = authorService.findByAuthorId(authorId);
+        Optional<Author> authorData = Optional.ofNullable(authorService.findByAuthorId(authorId));
         return authorData.map(author -> new ResponseEntity<>(author, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
